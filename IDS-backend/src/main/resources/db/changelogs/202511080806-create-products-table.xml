@@ -5,8 +5,8 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
 
-    <changeSet id="202511080015-create-test-table" author="molnara">
-        <sqlFile path="../sqls/202511080015-create-test-table.sql" relativeToChangelogFile="true" />
+    <changeSet id="202511080806-create-products-table" author="molnara">
+        <sqlFile path="../sqls/202511080806-create-products-table.sql" relativeToChangelogFile="true" />
     </changeSet>
 
 </databaseChangeLog>
