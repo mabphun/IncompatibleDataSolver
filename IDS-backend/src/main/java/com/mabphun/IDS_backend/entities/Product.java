@@ -1,23 +1,23 @@
 package com.mabphun.IDS_backend.entities;
 
+import com.mabphun.IDS_backend.dtos.CsvProductInputDto;
+import com.mabphun.IDS_backend.dtos.JsonProductInputDto;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Getter
 @Setter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "product")
+@Table(name = "products")
 public class Product {
 
     @Id
@@ -44,4 +44,30 @@ public class Product {
 
     @Column(nullable = true)
     private String source;
+
+    public static Product fromJsonProductInputDto(JsonProductInputDto dto){
+        return Product.builder()
+                .sku(dto.getId())
+                .name(dto.getName())
+                .manufacturer(dto.getManufacturer())
+                .finalPriceHuf(dto.getNetPrice().multiply(dto.getVatRate().add(BigDecimal.ONE)))
+                .stock(dto.getQuantityAvailable())
+                .ean(dto.getEan())
+                .updatedAt(dto.getUpdatedAt())
+                .source("json")
+                .build();
+    }
+
+    public static Product fromCsvProductInputDto(CsvProductInputDto dto){
+        return Product.builder()
+                .sku(dto.getSku())
+                .name(dto.getProductName())
+                .manufacturer(dto.getBrand())
+                .finalPriceHuf(dto.getGrossPriceHuf())
+                .stock(dto.getStockQty())
+                .ean(null)
+                .updatedAt(null)
+                .source("csv")
+                .build();
+    }
 }

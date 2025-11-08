@@ -1,0 +1,63 @@
+openapi: 3.1.0
+info:
+  title: Product API
+  description: API for uploading product JSON files
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080/api
+paths:
+  /products/upload:
+    post:
+      operationId: uploadFile
+      tags:
+        - Products
+      summary: Upload a file containing products
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+                  description: A file containing an array of products
+      responses:
+        '200':
+          description: File processed successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  loadedProducts:
+                    type: integer
+components:
+  schemas:
+    Product:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        manufacturer:
+          type: string
+        netPrice:
+          type: number
+          format: double
+          example: 1000.50
+        vatRate:
+          type: number
+          format: double
+          example: 0.27
+        quantityAvailable:
+          type: integer
+        ean:
+          type: string
+        updatedAt:
+          type: string
+          format: date-time
