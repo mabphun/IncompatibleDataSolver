@@ -17,9 +17,9 @@ public class ProductFilterDto {
     private Long stockMin;
     private Long stockMax;
     private Long ean;
-    private Boolean onlyValid;
+    private Boolean onlyValid = false;
 
     private String sortBy = "sku";
     private String sortDir = "asc";
-    private int page = 0;
+    private Integer page = 0;
 }

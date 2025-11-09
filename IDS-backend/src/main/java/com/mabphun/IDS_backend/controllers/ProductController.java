@@ -26,7 +26,7 @@ public class ProductController {
         return ResponseEntity.ok(errors);
     }
 
-    @GetMapping("/products")
+    @PostMapping("/products")
     public Page<Product> getProducts(@RequestBody ProductFilterDto filterDto) {
         return productService.getProducts(filterDto);
     }
