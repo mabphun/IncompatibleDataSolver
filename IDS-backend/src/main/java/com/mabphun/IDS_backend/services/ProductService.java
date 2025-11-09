@@ -3,6 +3,7 @@ package com.mabphun.IDS_backend.services;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mabphun.IDS_backend.dtos.CsvProductInputDto;
 import com.mabphun.IDS_backend.dtos.JsonProductInputDto;
+import com.mabphun.IDS_backend.dtos.ProductFilterDto;
 import com.mabphun.IDS_backend.entities.Product;
 import com.mabphun.IDS_backend.repositories.ProductRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -10,15 +11,17 @@ import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.util.Pair;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -33,6 +36,27 @@ public class ProductService {
     @Autowired
     private ObjectMapper objectMapper;
 
+    public Page<Product> getProducts(ProductFilterDto filter) {
+        Pageable pageable = PageRequest.of(
+                filter.getPage(),
+                10,
+                Sort.by(Sort.Direction.fromString(filter.getSortDir()), filter.getSortBy())
+        );
+
+        return productRepository.findFiltered(
+                filter.getSku() != null && !filter.getSku().isEmpty()? filter.getSku().toLowerCase() + "%" : null,
+                filter.getName() != null && !filter.getName().isEmpty()? filter.getName().toLowerCase() + "%" : null,
+                filter.getManufacturer() != null && !filter.getManufacturer().isEmpty()? filter.getManufacturer().toLowerCase() + "%" : null,
+                filter.getPriceMin(),
+                filter.getPriceMax(),
+                filter.getStockMin(),
+                filter.getStockMax(),
+                filter.getEan(),
+                filter.getOnlyValid(),
+                pageable
+        );
+    }
+
     public List<String> handleUploadedFile(MultipartFile file){
         List<Product> products = new ArrayList<>();
         List<String> errors = new ArrayList<>();
@@ -42,7 +66,6 @@ public class ProductService {
             errors = responsePair.getSecond();
         }
         else if (Objects.equals(file.getContentType(), "text/csv")){
-            //TODO: csv parsing
             Pair<List<Product>, List<String>> responsePair = parseCsvFile(file);
             products = responsePair.getFirst();
             errors = responsePair.getSecond();
