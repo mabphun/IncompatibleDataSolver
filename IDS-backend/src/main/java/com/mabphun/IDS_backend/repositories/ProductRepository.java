@@ -22,7 +22,13 @@ public interface ProductRepository extends JpaRepository<Product, String> {
         AND (:stockMin IS NULL OR p.stock >= :stockMin)
         AND (:stockMax IS NULL OR p.stock <= :stockMax)
         AND (:ean IS NULL OR p.ean = :ean)
-        AND (:onlyValid IS NULL OR (:onlyValid = TRUE AND p.stock > 0))
+        AND (:onlyValid IS NULL OR :onlyValid = FALSE OR (:onlyValid = TRUE
+        AND p.name IS NOT NULL
+        AND p.manufacturer IS NOT NULL
+        AND p.finalPriceHuf IS NOT NULL
+        AND p.stock IS NOT NULL
+        AND p.ean IS NOT NULL
+        AND p.updatedAt IS NOT NULL))
     """)
     Page<Product> findFiltered(
             @Param("sku") String sku,
