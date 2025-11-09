@@ -24,25 +24,25 @@ public class Product {
     @Column(nullable = false, unique = true)
     private String sku;
 
-    @Column(nullable = true)
+    @Column
     private String name;
 
-    @Column(nullable = true)
+    @Column
     private String manufacturer;
 
-    @Column(nullable = true, precision = 38, scale = 2)
+    @Column(precision = 38, scale = 2)
     private BigDecimal finalPriceHuf;
 
-    @Column(nullable = true)
+    @Column
     private Long stock;
 
-    @Column(nullable = true)
+    @Column
     private Long ean;
 
-    @Column(nullable = true)
+    @Column
     private LocalDateTime updatedAt;
 
-    @Column(nullable = true)
+    @Column
     private String source;
 
     public static Product fromJsonProductInputDto(JsonProductInputDto dto){

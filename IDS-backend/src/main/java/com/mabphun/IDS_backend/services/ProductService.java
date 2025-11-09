@@ -118,13 +118,10 @@ public class ProductService {
 
             for (int i = 0; i < productDtos.size(); i++) {
                 CsvProductInputDto dto = productDtos.get(i);
-                if (dto.getSku() == null || dto.getSku().isEmpty() ||
-                        dto.getProductName() == null || dto.getProductName().isEmpty() ||
-                        dto.getBrand() == null || dto.getBrand().isEmpty() ||
-                        dto.getGrossPriceHuf() == null || dto.getStockQty() == null) {
-                    errors.add("Item " + (i + 1) + " is faulty, saving was canceled.");
+                if (dto.getSku() == null || dto.getSku().isEmpty()) {
+                    errors.add("Item " + (i + 1) + " has a faulty identification, saving was canceled.");
                 }
-                else if (productRepository.findById(dto.getSku()).isPresent()){
+                else if (productRepository.findById(dto.getSku()).isPresent() || products.stream().anyMatch(p -> Objects.equals(p.getSku(), dto.getSku()))){
                     errors.add("Item " + (i + 1) + " is already saved to the database, saving was canceled.");
                 }
                 else {
@@ -152,15 +149,10 @@ public class ProductService {
 
             for (int i = 0; i < productDtos.size(); i++) {
                 JsonProductInputDto dto = productDtos.get(i);
-                if (dto.getId() == null || dto.getId().isEmpty() ||
-                        dto.getName() == null || dto.getName().isEmpty() ||
-                        dto.getManufacturer() == null || dto.getManufacturer().isEmpty() ||
-                        dto.getCurrency() == null || dto.getCurrency().isEmpty() ||
-                        dto.getNetPrice() == null ||  dto.getVatRate() == null ||
-                        dto.getQuantityAvailable() == null || dto.getUpdatedAt() == null){
-                    errors.add("Item " + (i + 1) + " is faulty, saving was canceled.");
+                if (dto.getId() == null || dto.getId().isEmpty()) {
+                    errors.add("Item " + (i + 1) + " has a faulty identification, saving was canceled.");
                 }
-                else if (productRepository.findById(dto.getId()).isPresent()){
+                else if (productRepository.findById(dto.getId()).isPresent() || products.stream().anyMatch(p -> Objects.equals(p.getSku(), dto.getId()))){
                     errors.add("Item " + (i + 1) + " is already saved to the database, saving was canceled.");
                 }
                 else {
