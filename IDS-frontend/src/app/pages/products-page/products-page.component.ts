@@ -1,17 +1,25 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { ProductService } from '../../shared/services/product.service';
 import { ProductFilter } from '../../shared/models/product-filter.model';
+import { PaginatorModule } from 'primeng/paginator';
+import { TableLazyLoadEvent, TableModule } from 'primeng/table';
+import { Product } from '../../shared/models/product.model';
 
 @Component({
   selector: 'app-products-page',
   standalone: true,
-  imports: [],
+  imports: [TableModule, PaginatorModule],
   templateUrl: './products-page.component.html',
   styleUrl: './products-page.component.scss'
 })
-export class ProductsPageComponent implements OnInit {
+export class ProductsPageComponent /*implements OnInit*/ {
 
   filter: ProductFilter
+  products: Product[] = []
+
+  rowsPerPage = 10
+  first: number = 0
+  totalRecords: number = 0
 
   constructor(
     private productService: ProductService
@@ -32,15 +40,28 @@ export class ProductsPageComponent implements OnInit {
     }
   }
 
-  ngOnInit(): void {
+  getProducts(): void{
     this.productService.getProducts(this.filter).subscribe({
-      next: res => {
-        console.log(res);
+      next: (res: any) => {
+        //console.log(res);
+        this.products = []
+        res.content.map((r: Product) => {
+          this.products.push(r)
+        })
+        this.totalRecords = res.totalElements
       },
       error: err => {
         console.log(err);
       }
     })
+  }
+
+  loadProducts($event: TableLazyLoadEvent) {
+    console.log($event);
+    this.filter.page = (($event.first || 0) / 10)
+    this.filter.sortBy = $event.sortField?.toString()
+    this.filter.sortDir = $event.sortOrder === 1 ? "asc" : "desc"
+    this.getProducts()
   }
 
 }
