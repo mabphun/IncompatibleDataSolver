@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 public interface ProductRepository extends JpaRepository<Product, String> {
 
@@ -22,6 +23,9 @@ public interface ProductRepository extends JpaRepository<Product, String> {
         AND (:stockMin IS NULL OR p.stock >= :stockMin)
         AND (:stockMax IS NULL OR p.stock <= :stockMax)
         AND (:ean IS NULL OR p.ean = :ean)
+        AND (CAST(:updatedAtMin AS timestamp) IS NULL OR p.updatedAt IS NULL OR p.updatedAt >= :updatedAtMin)
+        AND (CAST(:updatedAtMax AS timestamp) IS NULL OR p.updatedAt IS NULL OR p.updatedAt <= :updatedAtMax)
+        AND (:source IS NULL OR LOWER(p.source) LIKE :source)
         AND (:onlyValid IS NULL OR :onlyValid = FALSE OR (:onlyValid = TRUE
         AND p.name IS NOT NULL
         AND p.manufacturer IS NOT NULL
@@ -39,6 +43,9 @@ public interface ProductRepository extends JpaRepository<Product, String> {
             @Param("stockMin") Long stockMin,
             @Param("stockMax") Long stockMax,
             @Param("ean") Long ean,
+            @Param("updatedAtMin") LocalDateTime updatedAtMin,
+            @Param("updatedAtMax") LocalDateTime updatedAtMax,
+            @Param("source") String source,
             @Param("onlyValid") Boolean onlyValid,
             Pageable pageable
     );

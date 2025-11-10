@@ -1,0 +1,46 @@
+:host ::ng-deep {
+    .filter-container {
+        //background-color: aqua;
+        width: 90%;
+        margin: 0 auto;
+        padding: 20px;
+        border-radius: 5px;
+        margin-bottom: 1.5vh;
+        background-color: white;
+        //filter: drop-shadow(0px 5px 5px #e1e1e1);
+    }
+
+    .input-div{
+        display: flex;
+        flex-direction: column; 
+        width: 24%;
+    }
+
+    .input-div p-inputnumber *{
+        width: 100% !important;
+    }
+
+    .input-div p-checkbox *{
+        margin: auto;
+    }
+
+    .input-container{
+        margin-bottom: 1vh;
+        display: flex;
+        gap: 1%;
+    }
+
+    .table-container{
+        width: 90%;
+        margin: 0 auto;
+    }
+
+    p-table {
+        table {
+            table-layout: fixed;
+        }
+        table th{
+            width: 10%;
+        }
+    }
+}

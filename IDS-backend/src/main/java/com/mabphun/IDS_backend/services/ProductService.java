@@ -22,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -52,7 +53,10 @@ public class ProductService {
                 filter.getStockMin(),
                 filter.getStockMax(),
                 filter.getEan(),
-                filter.getOnlyValid(),
+                filter.getUpdatedAtMin() != null ? filter.getUpdatedAtMin().atStartOfDay() : LocalDateTime.of(1970, 1, 1, 0, 0),
+                filter.getUpdatedAtMax() != null ? filter.getUpdatedAtMax().plusDays(1).atStartOfDay() : LocalDateTime.of(9999, 12, 31, 23, 59),
+                filter.getSource() != null && !filter.getSource().isEmpty()? filter.getSource().toLowerCase() + "%" : null,
+                filter.getOnlyValid() != null ? filter.getOnlyValid() : false,
                 pageable
         );
     }

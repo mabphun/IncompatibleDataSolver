@@ -7,6 +7,9 @@ export interface ProductFilter {
   stockMin?: number | null;
   stockMax?: number | null;
   ean?: number | null;
+  source?: number | null;
+  updatedAtMin: Date | null;
+  updatedAtMax: Date | null;
   onlyValid?: boolean | null;
 
   sortBy?: string | null;
