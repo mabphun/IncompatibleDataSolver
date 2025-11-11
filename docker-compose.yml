@@ -1,0 +1,54 @@
+version: "3.8"
+
+services:
+  postgres:
+    image: postgres:17
+    container_name: idsdb
+    restart: always
+    environment:
+      POSTGRES_USER: mabphun
+      POSTGRES_PASSWORD: mabphun1234
+      POSTGRES_DB: idsdb
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - ids-network
+
+  backend:
+    build:
+      context: ./ids-backend
+      dockerfile: Dockerfile
+    container_name: ids-backend
+    restart: always
+    depends_on:
+      - postgres
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/idsdb
+      SPRING_DATASOURCE_USERNAME: mabphun
+      SPRING_DATASOURCE_PASSWORD: mabphun1234
+    ports:
+      - "8080:8080"
+    networks:
+      - ids-network
+
+  frontend:
+    build:
+      context: ./ids-frontend
+      dockerfile: Dockerfile
+    container_name: ids-frontend
+    restart: always
+    depends_on:
+      - backend
+    ports:
+      - "4200:80"
+    networks:
+      - ids-network
+
+volumes:
+  postgres_data:
+
+networks:
+  ids-network:
+    driver: bridge
