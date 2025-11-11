@@ -22,8 +22,13 @@ public class ProductController {
     @PostMapping("/upload")
     public ResponseEntity<List<String>> uploadFile(@RequestParam("file") MultipartFile file) {
         List<String> errors = productService.handleUploadedFile(file);
-        
-        return ResponseEntity.ok(errors);
+
+        if (errors.isEmpty()){
+            return ResponseEntity.ok(errors);
+        }
+        else {
+            return ResponseEntity.badRequest().body(errors);
+        }
     }
 
     @PostMapping("/products")

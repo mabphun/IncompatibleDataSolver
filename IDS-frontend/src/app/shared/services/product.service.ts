@@ -18,4 +18,8 @@ export class ProductService {
   public getProducts(filter: ProductFilter): Observable<Product[]>{
     return this.http.post<Product[]>(this.URL + "/products", filter)
   }
+
+  public uploadFile(formData: FormData): Observable<string[]> {
+    return this.http.post<string[]>(this.URL + "/upload", formData)
+  }
 }

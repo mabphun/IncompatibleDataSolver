@@ -50,7 +50,7 @@ public class Product {
                 .sku(dto.getId())
                 .name(dto.getName())
                 .manufacturer(dto.getManufacturer())
-                .finalPriceHuf(dto.getNetPrice().multiply(dto.getVatRate().add(BigDecimal.ONE)))
+                .finalPriceHuf(dto.getNetPrice() != null && dto.getVatRate() != null ? dto.getNetPrice().multiply(dto.getVatRate().add(BigDecimal.ONE)) : null)
                 .stock(dto.getQuantityAvailable())
                 .ean(dto.getEan())
                 .updatedAt(dto.getUpdatedAt())
