@@ -19,6 +19,10 @@ export class ProductService {
     return this.http.post<Product[]>(this.URL + "/products", filter)
   }
 
+  public getFaultyProducts(filter: ProductFilter): Observable<Product[]>{
+    return this.http.post<Product[]>(this.URL + "/faulty-products", filter)
+  }
+
   public uploadFile(formData: FormData): Observable<string[]> {
     return this.http.post<string[]>(this.URL + "/upload", formData)
   }

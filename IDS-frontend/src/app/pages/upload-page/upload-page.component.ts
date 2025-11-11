@@ -36,14 +36,10 @@ export class UploadPageComponent {
     this.loading = true
     this.productService.uploadFile(formData).subscribe({
       next: (res: string[]) => {
-        console.log(res);
-        //Successful
         this.loading = false
         this.success = true
       },
       error: (err: any) => {
-        console.log(err);
-        //Handle error
         this.loading = false
         err.error.map((e: string) => {
           this.errors.push(e)

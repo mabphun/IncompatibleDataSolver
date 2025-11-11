@@ -61,6 +61,16 @@ public class ProductService {
         );
     }
 
+    public Page<Product> getFaultyProducts(ProductFilterDto filter) {
+        Pageable pageable = PageRequest.of(
+                filter.getPage(),
+                10,
+                Sort.by(Sort.Direction.fromString(filter.getSortDir()), filter.getSortBy())
+        );
+
+        return productRepository.findFaultyProducts(pageable);
+    }
+
     public List<String> handleUploadedFile(MultipartFile file){
         List<Product> products = new ArrayList<>();
         List<String> errors = new ArrayList<>();

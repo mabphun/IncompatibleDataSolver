@@ -36,5 +36,9 @@ public class ProductController {
         return productService.getProducts(filterDto);
     }
 
+    @PostMapping("/faulty-products")
+    public Page<Product> getFaultyProducts(@RequestBody ProductFilterDto filterDto) {
+        return productService.getFaultyProducts(filterDto);
+    }
 
 }

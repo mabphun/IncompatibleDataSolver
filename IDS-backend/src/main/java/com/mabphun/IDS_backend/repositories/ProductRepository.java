@@ -50,4 +50,17 @@ public interface ProductRepository extends JpaRepository<Product, String> {
             Pageable pageable
     );
 
+    @Query("""
+        SELECT p FROM Product p
+        WHERE
+            p.name IS NULL
+        OR p.manufacturer IS NULL
+        OR p.finalPriceHuf IS NULL
+        OR p.stock IS NULL
+        OR p.ean IS NULL
+        OR p.updatedAt IS NULL
+        OR p.source IS NULL
+    """)
+    Page<Product> findFaultyProducts(Pageable pageable);
+
 }
