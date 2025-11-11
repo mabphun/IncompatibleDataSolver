@@ -1,0 +1,16 @@
+:host ::ng-deep {
+    .table-container{
+        width: 90%;
+        margin: 0 auto;
+    }
+
+    p-table {
+        table {
+            table-layout: fixed;
+        }
+        table th{
+            width: 10%;
+        }
+    }
+}
+

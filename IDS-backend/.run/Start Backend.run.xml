@@ -1,0 +1,9 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Start Backend" type="Application" factoryName="Application">
+    <option name="MAIN_CLASS_NAME" value="com.mabphun.IDS_backend.IdsBackendApplication" />
+    <module name="IDS-backend" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>

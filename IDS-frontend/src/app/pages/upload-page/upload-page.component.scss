@@ -1,0 +1,50 @@
+
+.container {
+    width: 90%;
+    margin: auto;
+}
+
+.errors p{
+    width: 100%;
+    margin: 0;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    color: rgb(249, 99, 99);
+    font-size: 20px
+}
+
+.errors h3{
+    width: 100%;
+    margin: 0;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    color: rgb(250, 69, 69);
+    font-size: 25px
+}
+
+.success h3{
+    width: 100%;
+    margin: 0;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    color: rgb(124, 230, 115);
+    font-size: 30px
+}
+
+:host ::ng-deep .loading-overlay {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: rgba(0, 0, 0, 0.25);
+  pointer-events: all;
+  z-index: 9999;
+  transition: opacity 0.3s ease;
+}
+
+:host ::ng-deep .loading-overlay p-progressSpinner {
+  z-index: 10000;
+}
+

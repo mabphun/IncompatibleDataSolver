@@ -1,0 +1,101 @@
+<div class="filter-container">
+    <div class="input-container">
+        <div class="input-div">
+            <label for="sku">SKU</label>
+            <input id="sku" type="text" pInputText [(ngModel)]="filter.sku" />
+        </div>
+        <div class="input-div">
+            <label for="name">Name</label>
+            <input id="name" type="text" pInputText [(ngModel)]="filter.name" />
+        </div>
+        <div class="input-div">
+            <label for="manufacturer">Manufacturer</label>
+            <input id="manufacturer" type="text" pInputText [(ngModel)]="filter.manufacturer" />
+        </div>
+        <div class="input-div">
+            <label for="ean">EAN</label>
+            <p-inputNumber id="ean" [(ngModel)]="filter.ean" [useGrouping]="false" mode="decimal" [min]="0" maxlength="13" /> 
+        </div>
+    </div>
+    <div class="input-container">
+        <div class="input-div">
+            <label for="minPrice">Min price</label>
+            <p-inputNumber id="minPrice" class="tst" [(ngModel)]="filter.priceMin" inputId="minmax" mode="decimal" [min]="0" /> 
+        </div>
+        <div class="input-div">
+            <label for="maxPrice">Max price</label>
+            <p-inputNumber id="maxPrice" [(ngModel)]="filter.priceMax" inputId="minmax" mode="decimal" [min]="0" /> 
+        </div>
+        <div class="input-div">
+            <label for="stockMin">Min stock</label>
+            <p-inputNumber id="stockMin" class="tst" [(ngModel)]="filter.stockMin" inputId="minmax" mode="decimal" [min]="0" /> 
+        </div>
+        <div class="input-div">
+            <label for="stockMax">Max stock</label>
+            <p-inputNumber id="stockMax" [(ngModel)]="filter.stockMax" inputId="minmax" mode="decimal" [min]="0" /> 
+        </div>
+    </div>
+    <div class="input-container">
+        <div class="input-div">
+            <label for="updatedAtMin">Updated after</label>
+            <p-calendar id="updatedAtMin" [(ngModel)]="filter.updatedAtMin" dateFormat="yy.mm.dd" [showIcon]="true" [showOnFocus]="true" />
+        </div>
+        <div class="input-div">
+            <label for="updatedAtMax">Updated after</label>
+            <p-calendar id="updatedAtMax" [(ngModel)]="filter.updatedAtMax" dateFormat="yy.mm.dd" [showIcon]="true" [showOnFocus]="true" />
+        </div>
+        <div class="input-div">
+            <label for="source">Source</label>
+            <input id="source" type="text" pInputText [(ngModel)]="filter.source" />
+        </div>
+        <div class="input-div">
+            <label for="onlyValid">Only valid?</label>
+            <p-checkbox id="onlyValid" [(ngModel)]="filter.onlyValid" [binary]="true" />
+        </div>
+    </div>
+    <div style="width: 100%; display: flex; justify-content: flex-end; gap: 10px;">
+        <p-button (onClick)="clearFilters()" severity="secondary" label="Clear" />
+        <p-button (onClick)="getProducts()" label="Search" />
+    </div>
+    
+</div>
+
+<div class="table-container">
+    <p-table
+        [value]="products"
+        [tableStyle]="{ 'min-width': '50rem' }"
+        [paginator]="true"
+        [first]="first"
+        [rows]="rowsPerPage"
+        [totalRecords]="totalRecords"
+        [lazy]="true"
+        (onLazyLoad)="loadProducts($event)"
+        [customSort]="true"
+        (sortFunction)="loadProducts($event)"
+    >
+        <ng-template pTemplate="header">
+            <tr>
+                <th pSortableColumn="sku">SKU <p-sortIcon field="sku"/></th>
+                <th pSortableColumn="name">Name <p-sortIcon field="name"/></th>
+                <th pSortableColumn="manufacturer">Manufacturer <p-sortIcon field="manufacturer"/></th>
+                <th pSortableColumn="finalPriceHuf">Price (HUF) <p-sortIcon field="finalPriceHuf"/></th>
+                <th pSortableColumn="stock">Stock <p-sortIcon field="stock"/></th>
+                <th pSortableColumn="ean">EAN <p-sortIcon field="ean"/></th>
+                <th pSortableColumn="updatedAt">Updated At <p-sortIcon field="updatedAt"/></th>
+                <th pSortableColumn="source">Source <p-sortIcon field="source"/></th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-product>
+            <tr>
+                <td>{{ product.sku }}</td>
+                <td>{{ product.name }}</td>
+                <td>{{ product.manufacturer }}</td>
+                <td>{{ product.finalPriceHuf }}</td>
+                <td>{{ product.stock }}</td>
+                <td>{{ product.ean }}</td>
+                <td>{{ product.updatedAt }}</td>
+                <td>{{ product.source }}</td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>

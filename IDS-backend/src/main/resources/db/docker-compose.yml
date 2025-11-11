@@ -1,0 +1,15 @@
+version: "3.8"
+
+services:
+  postgres:
+    image: postgres:17
+    container_name: idsdb
+    restart: always
+    environment:
+      POSTGRES_USER: mabphun
+      POSTGRES_PASSWORD: mabphun1234
+      POSTGRES_DB: idsdb
+    ports:
+      - "5432:5432"
+volumes:
+  postgres_data:
